@@ -22,8 +22,8 @@ while True:
             cv2.putText(potentiometer, val.zfill(1), (300, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
         elif int(val) >= 10 & int(val) < 100:
             cv2.putText(potentiometer, val.zfill(2), (283, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
-        elif int(val) >= 100:
-            cv2.putText(potentiometer, val.zfill(3), (260, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
+        elif int(val) == 100:
+            cv2.putText(potentiometer, val.zfill(3), (266, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
 
         if val != '0':
             # -100 to +100
