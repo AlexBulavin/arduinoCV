@@ -16,27 +16,35 @@ while True:
     print(result[0], result[1])
     try:
         val = result[1]
+        valButton = result[0]
 
         cv2.putText(potentiometer, val.zfill(4), (260, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
-        if val != '0':
+
+        if val != '-100':
             # -100 to +100
             # -90 to 270
             val = np.interp(int(val), [-100, 100], [-90, 270])
             cv2.ellipse(potentiometer, (320, 265), (131, 131), 0, -90, val, (255, 180, 0), 27)
             #Вписать элипс (потому, что он позволяет строить арки) в имидж с центром 320х265, осями 131, 131, нулевой угол 0 сместить на -90 град (начать сверху)
-            #цветом val, (255, 180, 0), толщиной 27
+            #преобразованными данными val, цветом (255, 180, 0), толщиной 27
+
     except:
         pass
 
     cv2.imshow("Image", potentiometer)
     cv2.waitKey(1)
 
-    valButton = result[0]
-
     if  int(valButton) == 0:
 
         cv2.imshow("Image1", imgLedOff)
         cv2.imshow("Image2", pin13Off)
-    elif valButton == 1:
+        cv2.imshow("Image1", imgLedOff)
+        cv2.imshow("Image2", pin13Off)
+        cv2.waitKey(1)
+
+    elif int(valButton) == 1:
         cv2.imshow("Image1", imgLedOn)
         cv2.imshow("Image2", pin13On)
+        cv2.imshow("Image1", imgLedOn)
+        cv2.imshow("Image2", pin13On)
+        cv2.waitKey(1)
