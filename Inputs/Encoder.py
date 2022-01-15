@@ -20,6 +20,7 @@ while True:
 
         if int(val) < 10:
             cv2.putText(potentiometer, val.zfill(1), (300, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
+            #Здесь: putText(картинка на которую нужно поместить текст, количество знаков в тексте, (начальная координата X, начальная координата Y), cv2.название шрифта, масштаб, (R, G, B), толщина)
         elif int(val) >= 10 & int(val) < 100:
             cv2.putText(potentiometer, val.zfill(2), (283, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
         elif int(val) == 100:
@@ -43,13 +44,9 @@ while True:
 
         cv2.imshow("Image1", imgLedOff)
         cv2.imshow("Image2", pin13Off)
-        cv2.imshow("Image1", imgLedOff)
-        cv2.imshow("Image2", pin13Off)
         cv2.waitKey(1)
 
     elif int(valButton) == 1:
-        cv2.imshow("Image1", imgLedOn)
-        cv2.imshow("Image2", pin13On)
         cv2.imshow("Image1", imgLedOn)
         cv2.imshow("Image2", pin13On)
         cv2.waitKey(1)
