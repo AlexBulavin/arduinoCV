@@ -21,10 +21,10 @@ while True:
         if int(val) < 10:
             cv2.putText(potentiometer, val.zfill(1), (300, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
             #Здесь: putText(картинка на которую нужно поместить текст, количество знаков в тексте, (начальная координата X, начальная координата Y), cv2.название шрифта, масштаб, (R, G, B), толщина)
-        elif int(val) >= 10 & int(val) < 100:
+        elif int(val) >= 10 and int(val) < 100:
             cv2.putText(potentiometer, val.zfill(2), (283, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
         elif int(val) == 100:
-            cv2.putText(potentiometer, val.zfill(3), (266, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)
+            cv2.putText(potentiometer, val.zfill(3), (266, 280), cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 3)          
 
         if val != '0':
             # -100 to +100
