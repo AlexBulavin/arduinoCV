@@ -22,7 +22,7 @@ qr = qrcode.QRCode(
 #ERROR_CORRECT_M = 15%
 #ERROR_CORRECT_Q = 25%
 #ERROR_CORRECT_H = 30%
-while i <= 0:
+while i <= 100:
     qr_data = i
 
     qr.add_data(qr_data)
