@@ -1,16 +1,19 @@
-__author__ = 'Alex Bulavin'
-
+import os
 from cvzone.SerialModule import SerialObject
 import cv2
 import time
-import serial
+import serial.tools.list_ports as sp
 
-#ser = serial.Serial('/dev/cu.usbserial-1430', 2000000, timeout=2, xonxoff=False, rtscts=False, dsrdtr=False) #Tried with and without the last 3 parameters, and also at 1Mbps, same happens.
-ser = serial.Serial('/dev/cu.usbserial-1430', timeout=None, baudrate=115200, xonxoff=False, rtscts=False, dsrdtr=False)
-ser.flushInput()
-ser.flushOutput()
+os.system('clear')  # для Unix/Linux/Mac
+# Получить список доступных портов
+ports = list(sp.comports())
+# Вывести информацию о каждом порту
+for port in ports:
+    print(f"Port: {port.device}, Description: {port.description}")
 
-#port = SerialObject("/dev/cu.usbserial-1431") #("Arduino MKR1000")
+port = SerialObject("/dev/cu.usbserial-120")  # Заменил ser на port
+port.ser.flushInput()
+port.ser.flushOutput()
 
 max_diff_time = 0
 sum_time = 0
@@ -19,40 +22,38 @@ cv2.imshow("Image", img)
 cv2.waitKey(1)
 counter = 0
 items_in_test = 300
+time.sleep(3)
 
-try:
+while True:
+    try:
+        print("Test", counter)
+        data_raw = port.ser.readline()
+        print("Data from port:", data_raw)
+        counter = counter + 1
 
-    counter = counter + 1
-    print("Test", counter)
-    #res = port.getData()
-    #print("port.getData() =", res)
-    data_raw = ser.readline()
-    print("data_raw = ", data_raw)
+        if data_raw:
+            start_time = int(round(time.time() * 1000))
+            old_time = start_time
+            print("Start time =", start_time)
 
-    #if res != None:
-    if data_raw != None:
-        start_time = int(round(time.time() * 1000))
-        old_time = start_time
-        print(data_raw, type(data_raw), "Start time = ", start_time)
+            for i in range(items_in_test):
+                img = cv2.imread(f"QR_Rresources/{i + 1}.jpg")
+                cv2.imshow("Image", img)
+                cv2.waitKey(0)  # cv2.waitKey(х) Отображение х мс, то есть исчезает через x/1000 секунд
 
-        for i in range(items_in_test):
-            img = cv2.imread(f"QR_Rresources/{i + 1}.jpg")
-            cv2.imshow("Image", img)
-            cv2.waitKey(1)  # Отображение х мс, то есть исчезает через x/1000 секунд
-            data_raw = ser.readline()
-            #res = port.getData()
-            print("Код ", i+1, " из", items_in_test)
-            if data_raw != None:
-                print("data_raw = ", data_raw)
-            #if res != None: #Если условие выполняется, меняем кадр
+                data_raw = port.ser.readline()
+                print("Data from port inside loop:", data_raw)
+
                 current_time = int(round(time.time() * 1000))
                 diff_time = current_time - old_time
                 sum_time = sum_time + diff_time
                 if diff_time > max_diff_time:
                     max_diff_time = diff_time
                 old_time = current_time
-        print("Максимальное время = ", max_diff_time, " миллисекунд на фрейм")
-        print("Среднее время = ", sum_time/(items_in_test+1), " миллисекунд на фрейм")
+                print("Max time =", max_diff_time, "миллисекунд на фрейм")
+                print("Average time =", sum_time / (items_in_test + 1), "миллисекунд на фрейм")
 
-except:
-    pass
+    except Exception as e:
+        print("Error:", e)
+    cv2.destroyAllWindows()
+
