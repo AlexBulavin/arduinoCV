@@ -27,3 +27,7 @@ for port in ports:
 port = SerialObject("/dev/cu.usbserial-120")  # Заменил ser на port
 port.ser.flushInput()
 port.ser.flushOutput()
+
+# ГЛАВНОЕ!!!
+## Перед запуском скрипта serial_port_reader.py или его аналога ВСЕГДА перезапускаем ESP32-CAM путём отключения от компа и повторного включения!!!
+## ИНАЧЕ НЕ РАБОТАЕТ!!!
